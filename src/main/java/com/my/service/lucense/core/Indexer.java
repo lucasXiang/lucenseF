@@ -2,6 +2,7 @@ package com.my.service.lucense.core;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -120,7 +121,7 @@ public class Indexer {
 	public static void main(String[] args) {
 
 		// 索引指定的文档路径
-		String indexDir = "D:\\eclipse-workplace-lucense\\index";
+		String indexDir = System.getProperty("user.dir")+"\\index" ;
 
 		// 被索引数据的路径
 		String dataDir = "D:\\eclipse-workplace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\logs";

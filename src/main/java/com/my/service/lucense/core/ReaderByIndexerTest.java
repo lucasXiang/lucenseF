@@ -84,6 +84,7 @@ public class ReaderByIndexerTest {
 				int index = strArrays[i].indexOf(q);
 				if(index != -1){
 					System.out.println("行数："+(i+1)+";列数："+(index+1));
+					System.out.println("文本内容："+strArrays[i]);
 					break;
 				}
 			}
@@ -99,8 +100,8 @@ public class ReaderByIndexerTest {
 	// 测试
 	public static void main(String[] args) {
 
-		String indexDir = "D:\\eclipse-workplace-lucense\\index";
-		String q = "/wisdom_house/resources/js/index.js";
+		String indexDir = System.getProperty("user.dir")+"\\index";
+		String q = "nihaoshijie";
 
 		try {
 			search(indexDir, q);
