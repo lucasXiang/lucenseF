@@ -1,13 +1,11 @@
 package com.my.service.lucense.core;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Paths;
+import java.util.Date;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -18,6 +16,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
+import com.my.util.DateUtil;
 
 public class Indexer {
 	// 写索引的实例到指定目录下
@@ -109,7 +109,9 @@ public class Indexer {
 
 		// 把完整路径存在索引文件里
 		doc.add(new TextField("fullPath", files.getCanonicalPath(), Field.Store.YES));
-
+		
+		//获取文件最后修改的时间
+		doc.add(new TextField("timeKey",DateUtil.data2String(new Date(files.lastModified()),"yyyy-MM-dd HH:mm:ss"),Field.Store.YES));
 		// 返回document
 		return doc;
 	}

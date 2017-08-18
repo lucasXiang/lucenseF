@@ -3,6 +3,7 @@ package com.my.service.lucense.core;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
@@ -78,47 +79,18 @@ public class ReaderByIndexerTest {
 			Document doc = is.doc(scoreDoc.doc);
 			System.out.println("fullPath:" + doc.get("fullPath"));
 			System.out.println("FileName:" + doc.get("FileName"));
-			System.out.println("contents:" + doc.get("contents"));
-		}
-		System.out.println("==================================================");
-		// 算分
-		QueryScorer scorer = new QueryScorer(query);
-		// 显示得分高的片段
-		Fragmenter fragmenter = new SimpleSpanFragmenter(scorer);
-		// 设置标签内部关键字的颜色
-		// 第一个参数：标签的前半部分；第二个参数：标签的后半部分。
-		SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<b><font color='red'>", "</font></b>");
-		// 第一个参数是对查到的结果进行实例化；第二个是片段得分（显示得分高的片段，即摘要）
-		Highlighter highlighter = new Highlighter(simpleHTMLFormatter, scorer);
-		// 设置片段
-		highlighter.setTextFragmenter(fragmenter);
-		// 遍历topDocs
-		/**
-		 * ScoreDoc:是代表一个结果的相关度得分与文档编号等信息的对象。 scoreDocs:代表文件的数组
-		 * 
-		 * @throws Exception
-		 */
-		for (ScoreDoc scoreDoc : hits.scoreDocs) {
-
-			// 获取文档
-			Document document = is.doc(scoreDoc.doc);
-
-			// 输出全路径
-			System.out.println("fullPath:" + document.get("fullPath"));
-			System.out.println("contents:" + document.get("contents"));
-
-			String desc = document.get("contents");
-			if (desc != null) {
-
-				// 把全部得分高的摘要给显示出来
-
-				// 第一个参数是对哪个参数进行设置；第二个是以流的方式读入
-				TokenStream tokenStream = analyzer.tokenStream("contents", new StringReader(desc));
-
-				// 获取最高的片段
-				System.out.println(highlighter.getBestFragment(tokenStream, desc));
+			String[] strArrays = doc.getValues("contents");
+			for(int i=0;i<strArrays.length;i++){
+				int index = strArrays[i].indexOf(q);
+				if(index != -1){
+					System.out.println("行数："+(i+1)+";列数："+(index+1));
+					break;
+				}
 			}
+//			System.out.println("contents:" + Arrays.toString(doc.getValues("contents")));
+			System.out.println("timeKey:" + doc.get("timeKey"));
 		}
+		
 
 		// 关闭reader
 		reader.close();
