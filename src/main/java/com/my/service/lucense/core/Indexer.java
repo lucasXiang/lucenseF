@@ -98,7 +98,7 @@ public class Indexer {
 		Document doc = new Document();
 		BufferedReader bif = new BufferedReader(new FileReader(files));
 		String tempStr = "";
-		while((tempStr = bif.readLine())!=null){
+		while((tempStr = bif.readLine()) != null){
 			doc.add(new TextField("contents", tempStr,Field.Store.YES));
 		}
 		bif.close();
